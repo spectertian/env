@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_container
+    ports:
+      - "3306:3306" # 映射主机的3306端口到容器
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword # 设置MySQL root密码
+      MYSQL_DATABASE: mydb # 创建一个名为mydb的数据库
+      MYSQL_USER: myuser # 创建一个用户
+      MYSQL_PASSWORD: mypassword # 设置用户密码
+    volumes:
+      - mysql_data:/var/lib/mysql # 持久化MySQL数据
+
+  redis:
+    image: redis:7.0
+    container_name: redis_container
+    ports:
+      - "6379:6379" # 映射主机的6379端口到容器
+    command: ["redis-server", "--appendonly", "yes"] # 开启Redis持久化
+
+volumes:
+  mysql_data:
+    driver: local
